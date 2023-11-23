@@ -1,0 +1,59 @@
+﻿@model List<Products>
+@{
+    ViewData["Title"] = "Cart";
+}
+<br />
+@if (Model.Count>0)
+{
+    <h1>Your Cart</h1>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Product type</th>
+                    <th>Color</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="/@item.Image" style="height:150px;width:200px" /></td>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.ProductTypes.ProductType</td>
+                        <td>@item.ProductColor</td>
+                        <td class="d-flex justify-content-center">
+                            <a asp-action="Remove" asp-area="Customer" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <a asp-action="Index" asp-controller="Home" class="btn btn-success">Back To Home</a>
+        </div>
+        <div class="col-6 text-end">
+            <h4>Total Amount</h4>
+            <hr />
+            <h4>Grand total: @Model.Sum(c=>c.Price)</h4>
+            <a asp-area="Customer" asp-action="CheckOut" asp-controller="Order" style="color:white" class="btn btn-info">Procceed To Checkout</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Your Cart is empty</h1>
+        <h3>Please add something to your cart!</h3>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Back To Home</a>
+    </div>
+}

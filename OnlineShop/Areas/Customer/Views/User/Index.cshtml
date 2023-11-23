@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ApplicatonUser>
+@{
+    ViewData["Title"] = "Index";
+}
+<br/><br/>
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">User List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-action="Create" class="btn btn-info text-white"><i class="fa-solid fa-plus"></i>&nbsp;New User</a>
+    </div>
+</div>
+<br/>
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>Name</th>
+            <th>User Name</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName @user.LastName</td>
+                <td>@user.UserName</td>
+                @if (user.LockoutEnd>DateTime.Now && user.LockoutEnd!=null)  
+                {
+                    <td>Inactive</td>
+                    <td></td>
+                    <td style="width:250px text-end">
+                        <div>
+                            <a asp-action="Active" asp-route-id=@user.Id class="btn btn-success"><i class="fa-solid fa-check"></i></a>
+
+                            <a asp-action="Delete" asp-route-id=@user.Id class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                        </div>
+                    </td>
+                }
+                else
+                {
+                    <td>Active</td>
+                    <td>
+                        <partial name="_PartialView" model=@user.Id />
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>
+@if (TempData["Save"] != null)
+{
+    <script type="text/javascript">
+        $(function () {
+            alertify.success('@TempData["Save"]');
+        });
+    </script>
+}
+@if (TempData["Update"] != null)
+{
+    <script type="text/javascript">
+        $(function () {
+            alertify.success('@TempData["Update"]');
+        });
+    </script>
+}
+@if (TempData["Delete"] != null)
+{
+    <script type="text/javascript">
+        $(function () {
+            alertify.error('@TempData["Delete"]');
+        });
+    </script>
+}

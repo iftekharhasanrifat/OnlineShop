@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProductTypes>
+@{
+    ViewData["Title"] = "Index";
+}
+<br/><br/>
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Product Type List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-action="Create" class="btn btn-info text-white"><i class="fa-solid fa-plus"></i>&nbsp;New Product Type</a>
+    </div>
+</div>
+<br/>
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>@Html.DisplayNameFor(c=>c.ProductType)</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var productType in Model)
+        {
+            <tr>
+                <td>@productType.ProductType</td>
+                <td>
+                    <partial name="_ButtonPartial" model=@productType.Id />
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    @if (TempData["Save"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.success('@TempData["Save"]');
+            });
+        </script>
+    }
+    @if (TempData["Update"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.success('@TempData["Update"]');
+            });
+        </script>
+    }
+    @if (TempData["Delete"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.error('@TempData["Delete"]');
+            });
+        </script>
+    }
+}
+

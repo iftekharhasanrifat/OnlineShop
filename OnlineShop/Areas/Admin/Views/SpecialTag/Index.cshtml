@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SpecialTag>
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Special Tag List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-action="Create" class="btn btn-info text-white"><i class="fa-solid fa-plus"></i>&nbsp;New Special Tag</a>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>@Html.DisplayNameFor(c=>c.Name)</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var specialTag in Model)
+        {
+            <tr>
+                <td>@specialTag.Name</td>
+                <td>
+                    <partial name="_ButtonPartial" model=@specialTag.Id />
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    @if (TempData["Save"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.success('@TempData["Save"]');
+            });
+        </script>
+    }
+    @if (TempData["Update"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.success('@TempData["Update"]');
+            });
+        </script>
+    }
+    @if (TempData["Delete"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alertify.error('@TempData["Delete"]');
+            });
+        </script>
+    }
+}
